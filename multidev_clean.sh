@@ -13,14 +13,14 @@ Arguments:
     Name of Multidev
 
 Options:
-    -h  Display this help message" 
+    -h                                  Display this help message" 
     1>&2;
 }
 while getopts ":hs:" opt; do
     case "${opt}" in
         h)
-            usage
-            exit 1
+            usage >&2
+            exit 0
             ;;        
         s)
             # This allows us to add custom functions
@@ -49,16 +49,8 @@ multidev_name=$2
 sitename=${site%%.*}
 environment=$multidev_name
 
-
 # Login to Pantheon
 terminus auth:login
-
-echo $sitename
-echo $multidev_name
-echo $environment
-
-exit 1
-
 
 echo "Creating multidev named $multidev_name..."
 terminus multidev:create $site $multidev_name
