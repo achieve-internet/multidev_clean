@@ -1,14 +1,64 @@
 #!bin/bash
 set -e
 
+usage() {
+    echo "Generate Multidev environment without changing Edge Organization of Development environment
+
+Examples: 
+    ./$0 -h                             Display this help message 
+    ./$0 sitename.env multidev_name     Create multidev with name: multidev_name from sitename.dev site
+
+Arguments:
+    sitename.env
+    Name of Multidev
+
+Options:
+    -h  Display this help message" 
+    1>&2;
+}
+while getopts ":hs:" opt; do
+    case "${opt}" in
+        h)
+            usage
+            exit 1
+            ;;        
+        s)
+            # This allows us to add custom functions
+            # Set the flags in here to a global value, and then we will be able to see
+            # if we have any other functions to execute at the end
+            ;;
+        :)
+            printf "Missing argument for -%s\n" "$OPTARG" >&2
+            usage >&2
+            exit 1
+            ;;
+        \?) 
+            printf "illegal option: -%s\n" "$OPTARG" >&2
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+shift "$((OPTIND-1))"
+
+
+
 #Extracting information from the two arguments given to the script
 site=$1
 multidev_name=$2
 sitename=${site%%.*}
 environment=$multidev_name
 
+
 # Login to Pantheon
 terminus auth:login
+
+echo $sitename
+echo $multidev_name
+echo $environment
+
+exit 1
+
 
 echo "Creating multidev named $multidev_name..."
 terminus multidev:create $site $multidev_name

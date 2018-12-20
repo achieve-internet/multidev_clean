@@ -13,7 +13,7 @@ $ terminus auth:login [--machine-token [MACHINE-TOKEN]] [--email [EMAIL]]
 
 ### Running the command
 Two arguments are needed for this script: 
-* Site: (<sitename>.<environment>)
+* Site: (sitename.environment)
 * Name: the name for the multidev
 Run the command in the following format:
 ```
